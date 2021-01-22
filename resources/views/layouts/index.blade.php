@@ -17,7 +17,7 @@
   <div class="row">
     <div class="col-md-12 mt-5">
       <h1 class="text-center">@yield('h1')</h1>
-      <hr>
+      <hr/>
     </div><!-- /.col-md-12 mt-5 -->
   </div><!-- /.row -->
   <div class="row">
@@ -28,5 +28,6 @@
 </div><!-- /.container -->
 
   <script src="{{  asset('js/app.js') }}"></script>
+  <script src="{{  asset('js/users.js') }}"></script>
 </body>
 </html>
