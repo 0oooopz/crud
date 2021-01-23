@@ -31,11 +31,12 @@
           Sort by
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#" data-order="default">Default</a>
-          <a class="dropdown-item" href="#" data-order="created">Created</a>
-          <a class="dropdown-item" href="#" data-order="updated">Updated</a>
-          <a class="dropdown-item" href="#" data-order="name-a-z">Name: A-Z</a>
-          <a class="dropdown-item" href="#" data-order="name-z-a">Name: Z-A</a>
+          <a class="dropdown-item" href="#" data-order="id">Id</a>
+          <a class="dropdown-item" href="#" data-order="first-name">First name</a>
+          <a class="dropdown-item" href="#" data-order="last-name">Last name</a>
+          <a class="dropdown-item" href="#" data-order="email">Email</a>
+          <a class="dropdown-item" href="#" data-order="created-at">Created-at</a>
+          <a class="dropdown-item" href="#" data-order="updated-at">Updated-at</a>
         </div>
       </div>
     </div>
@@ -77,11 +78,6 @@
         @endforeach
         </tbody>
       </table>
-      <div class="row">
-        <div class="col-12 ">
-          {{ $users->links() }}
-        </div>
-      </div>
     </div>
   @endif
 @endsection
@@ -92,7 +88,7 @@
           $('.dropdown-item').click(function () {
               let orderBy = $(this).data('order')
               $.ajax({
-                  url: "{{route('users.index', $user->name)}}",
+                  url: "{{route('users.index')}}",
                   type: "GET",
                   data: {
                       orderBy: orderBy

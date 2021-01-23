@@ -14,17 +14,20 @@ class UsersController extends Controller {
 		$sortBy = $request->orderBy;
 		if(isset($sortBy)){
 			switch ($sortBy){
-				case $sortBy == 'created';
-					$user = $user->orderBy('created_at')->get();
-					break;
-				case $sortBy == 'updated';
-					$user = $user->orderBy('updated_at')->get();
-					break;
-				case $sortBy == 'name-a-z';
+				case $sortBy == 'first-name';
 					$user = $user->orderBy('first_name')->get();
 					break;
-				case $sortBy == 'name-z-a';
-					$user = $user->orderByDesc('first_name')->get();
+				case $sortBy == 'last-name';
+					$user = $user->orderBy('last_name')->get();
+					break;
+				case $sortBy == 'email';
+					$user = $user->orderBy('email')->get();
+					break;
+				case $sortBy == 'created-at';
+					$user = $user->orderBy('created_at')->get();
+					break;
+				case $sortBy == 'updated-at';
+					$user = $user->orderBy('updated_at')->get();
 					break;
 				default:
 					$user = $user->orderBy('id')->get();
@@ -37,7 +40,7 @@ class UsersController extends Controller {
 			])->render();
 		}
 		return view('users.index', [
-			'users' => $user->paginate(10),
+			'users' => $user->all(),
 		]);
 	}
 
