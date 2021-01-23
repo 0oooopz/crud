@@ -9,10 +9,35 @@ use App\Models\User;
 
 class UsersController extends Controller {
 
-	public function index(User $user) {
+	public function index(Request $request,User $user) {
 
+		$sortBy = $request->orderBy;
+		if(isset($sortBy)){
+			switch ($sortBy){
+				case $sortBy == 'created';
+					$user = $user->orderBy('created_at')->get();
+					break;
+				case $sortBy == 'updated';
+					$user = $user->orderBy('updated_at')->get();
+					break;
+				case $sortBy == 'name-a-z';
+					$user = $user->orderBy('first_name')->get();
+					break;
+				case $sortBy == 'name-z-a';
+					$user = $user->orderByDesc('first_name')->get();
+					break;
+				default:
+					$user = $user->orderBy('id')->get();
+			}
+		}
+
+		if($request->ajax()){
+			return view('ajax.sort-by',[
+				'users' => $user,
+			])->render();
+		}
 		return view('users.index', [
-			'users' => $user->paginate(5),
+			'users' => $user->paginate(10),
 		]);
 	}
 

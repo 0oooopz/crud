@@ -7,7 +7,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center">
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <strong>User deleted successfully</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -23,7 +23,24 @@
       <h3>Would you want <a href="{{ route('users.create') }}">add</a> some one?</h3>
     </div>
   @else
-    <div class="col-md-12">
+
+    <div class="col-md-1 mb-2">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+          Sort by
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#" data-order="default">Default</a>
+          <a class="dropdown-item" href="#" data-order="created">Created</a>
+          <a class="dropdown-item" href="#" data-order="updated">Updated</a>
+          <a class="dropdown-item" href="#" data-order="name-a-z">Name: A-Z</a>
+          <a class="dropdown-item" href="#" data-order="name-z-a">Name: Z-A</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 ">
       <table class="table">
         <thead class="thead-dark">
         <tr>
@@ -31,16 +48,20 @@
           <th scope="col">First Name</th>
           <th scope="col">Last Name</th>
           <th scope="col">Email</th>
+          <th scope="col">Created at</th>
+          <th scope="col">Updated at</th>
           <th scope="col">Action</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="ajax-sort">
         @foreach ($users as $user)
           <tr>
-            <th scope="row">{{ $loop->count }}</th>
+            <th scope="row">{{ $loop->index+1 }}</th>
             <td>{{ $user->first_name }}</td>
             <td>{{ $user->last_name }}</td>
             <td>{{ $user->email }}</td>
+            <td>{{ $user->created_at }}</td>
+            <td>{{ $user->updated_at }}</td>
             <td>
               <a class="btn btn-sm btn-primary" href="{{ route('users.show',['user' => $user->id]) }}"
                  role="button">Show</a>
@@ -57,10 +78,34 @@
         </tbody>
       </table>
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 ">
           {{ $users->links() }}
         </div>
       </div>
     </div>
   @endif
+@endsection
+@section('ajax')
+
+  <script>
+      $(document).ready(function () {
+          $('.dropdown-item').click(function () {
+              let orderBy = $(this).data('order')
+              $.ajax({
+                  url: "{{route('users.index', $user->name)}}",
+                  type: "GET",
+                  data: {
+                      orderBy: orderBy
+                  },
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  success: function (data) {
+                      $('.ajax-sort').html(data)
+                  }
+
+              });
+          })
+      })
+  </script>
 @endsection
