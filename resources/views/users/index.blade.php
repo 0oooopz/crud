@@ -12,21 +12,20 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-          </div>
-        </div>
-      </div>
-    </div>
+          </div><!-- /.alert alert-warning alert-dismissible fade show -->
+        </div><!-- /.col-md-12 text-center -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
   @endif
   @if(!count($users))
     <div class="col-md-12 text-center">
       <h2>No Users ! </h2>
       <h3>Would you want <a href="{{ route('users.create') }}">add</a> some one?</h3>
-    </div>
+    </div><!-- /.col-md-12 text-center -->
   @else
     <div class="container">
       <div class="row d-flex align-items-center">
         <div class="dropdown filters">
-
           <button class="btn mx-3 btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton"
                   data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
@@ -39,29 +38,26 @@
             <a class="dropdown-item" href="#" data-value="0" data-order="email">Email</a>
             <a class="dropdown-item" href="#" data-value="0" data-order="created_at">Created-at</a>
             <a class="dropdown-item" href="#" data-value="0" data-order="updated_at">Updated-at</a>
-          </div>
-        </div>
+          </div><!-- /.dropdown filters -->
+        </div><!-- /.dropdown filters -->
         <div class="d-flex mt-3 align-items-center">
           <nav class="navbar navbar-light bg-light float-right">
-            <a class="form-group filters">
+            <span class="form-group filters">
               <input type="text" class="form-control" name="search" placeholder="Search" id="search">
-            </a>
-          </nav>
-        </div>
+            </span>
+          </nav><!-- /.navbar navbar-light bg-light float-right -->
+        </div><!-- /.d-flex mt-3 align-items-center -->
         <div class="d-flex align-items-center">
           <div class="row d-flex align-items-center">
-            <a role="button" class="mx-3 btn btn-primary" id="customSearch">Search</a>
-          </div>
-        </div>
-
-
+            <a role="button" class="ml-4 btn btn-primary" id="customSearch">Search</a>
+          </div><!-- /.row d-flex align-items-center -->
+        </div><!-- /.d-flex align-items-center -->
         <div class="d-flex align-items-right offset-md-6">
           <a role="button" class="ml-4 btn btn-success" href="{{ route('users.create') }}">Add User</a>
-        </div>
-      </div>
-    </div>
+        </div><!-- /.d-flex align-items-right offset-md-6 -->
+      </div><!-- /.row d-flex align-items-center -->
+    </div><!-- /.container -->
     <div class="container">
-
       <div class="row">
         <div class="col-md-12 ">
           <table class="table">
@@ -98,12 +94,12 @@
                 </td>
               </tr>
             @endforeach
-            </tbody>
+            </tbody><!-- /.ajax-sort -->
           </table>
-        </div>
+        </div><!-- /.col-md-12 -->
         @endif
-      </div>
-    </div>
+      </div><!-- /.row -->
+    </div><!-- /.container -->
 @endsection
 @section('ajax')
   <script>

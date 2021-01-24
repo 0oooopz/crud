@@ -18,6 +18,6 @@
           </div><!-- /.card-body -->
         </div><!-- /.card-->
       </div><!-- /.col-md-5 mx-auto -->
-    </div>
-  </div>
+    </div><!-- /.row -->
+  </div><!-- /.container -->
 @endsection

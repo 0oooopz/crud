@@ -24,8 +24,8 @@ class UserFactory extends Factory {
 			'first_name' => $this->faker->firstName,
 			'last_name' => $this->faker->lastName,
 			'email' => $this->faker->unique()->safeEmail,
-			'created_at' => now(),
-			'updated_at' => now(),
+			'created_at' => $this->faker->dateTimeBetween('-10 years','-5 years'),
+			'updated_at' => $this->faker->dateTimeBetween('-4 years','-1 years'),
 		];
 	}
 }

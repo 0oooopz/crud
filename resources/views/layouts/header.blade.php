@@ -11,10 +11,10 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="{{ route('users.index') }}">Show all users</a>
-        </li>
-      </ul>
-    </div>
+        </li><!-- /.nav-item active -->
+      </ul><!-- /.navbar-nav mr-auto -->
+    </div><!-- /.collapse navbar-collapse -->
 
-  </div>
-</nav>
+  </div><!-- /.container -->
+</nav><!-- /.navbar navbar-expand-lg navbar-dark bg-dark -->
 

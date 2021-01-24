@@ -8,28 +8,32 @@ use App\Models\User;
 
 
 class UsersController extends Controller {
-
-	public function index(Request $request,User $user) {
+	/**
+	 * @param Request $request
+	 * @param User $user
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|string
+	 */
+	public function index(Request $request, User $user) {
 
 		$search = $request->search;
 		$sortBy = $request->orderBy;
 
-		if(isset($search)){
+		if (isset($search)) {
 
-			$user = $user->where('first_name','like',"%$search%")
-				->orWhere('last_name','like',"%$search%")
-				->orWhere('email','like',"%$search%")
-				->orWhere('created_at','like',"%$search%")
-				->orWhere('updated_at','like',"%$search%")
-				->orWhere('id','like',"%$search%");
+			$user = $user->where('first_name', 'like', "%$search%")
+				->orWhere('last_name', 'like', "%$search%")
+				->orWhere('email', 'like', "%$search%")
+				->orWhere('created_at', 'like', "%$search%")
+				->orWhere('updated_at', 'like', "%$search%")
+				->orWhere('id', 'like', "%$search%");
 		}
 
-		if(isset($sortBy)){
-					$user = $user->orderBy($sortBy)->get();
+		if (isset($sortBy)) {
+			$user = $user->orderBy($sortBy)->get();
 		}
 
-		if($request->ajax()){
-			return view('ajax.sort-by',[
+		if ($request->ajax()) {
+			return view('ajax.sort-by', [
 				'users' => $user,
 			])->render();
 		}
@@ -38,16 +42,24 @@ class UsersController extends Controller {
 		]);
 	}
 
-	public function create(){
+	/**
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+	 */
+	public function create() {
 		return view('users.create');
 	}
 
-	public function store(Request $request, User $user){
+	/**
+	 * @param Request $request
+	 * @param User $user
+	 * @return mixed
+	 */
+	public function store(Request $request, User $user) {
 
 		$validateData = $request->validate([
-			'first_name' => ['required'],
-			'last_name' => ['required'],
-			'email' => ['required', 'unique:users','email'],
+			'first_name' => ['required','max:12'],
+			'last_name' => ['required', 'max:12'],
+			'email' => ['required', 'unique:users', 'email','max:25'],
 		]);
 
 		$user->first_name = $request->first_name;
@@ -57,16 +69,18 @@ class UsersController extends Controller {
 		return redirect()->back()->withSuccess(' ');
 	}
 
-	public function show(User $user){
-		return view('users.show',[
-			'user'=>$user
+	/**
+	 * @param User $user
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+	 */
+	public function show(User $user) {
+		return view('users.show', [
+			'user' => $user
 		]);
 	}
 
-
-	public function edit(User $user)
-	{
-		return view('users.edit',[
+	public function edit(User $user) {
+		return view('users.edit', [
 			'user' => $user,
 		]);
 	}
@@ -76,8 +90,14 @@ class UsersController extends Controller {
 	 * @param User $user
 	 * @return RedirectResponse
 	 */
-	public function update(Request $request, User $user): RedirectResponse
-	{
+	public function update(Request $request, User $user): RedirectResponse {
+
+		$validateData = $request->validate([
+			'first_name' => ['required','max:12'],
+			'last_name' => ['required', 'max:12'],
+			'email' => ['required', 'email','max:25'],
+		]);
+
 		$user->first_name = $request->first_name;
 		$user->last_name = $request->last_name;
 		$user->email = $request->email;
@@ -91,11 +111,9 @@ class UsersController extends Controller {
 	 * @return RedirectResponse
 	 * @throws \Exception
 	 */
-	public function destroy(User $user): RedirectResponse
-	{
+	public function destroy(User $user): RedirectResponse {
 		$user->delete();
 		return redirect()->back()->withSuccess(' ');
 	}
-
 
 }

@@ -15,24 +15,33 @@
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
+            </div><!-- /.form-group -->
           @endif
           <div class="form-group">
             <label for="">First name</label>
             <input type="text" class="form-control" name="first_name" value="{{ $user->first_name }}">
-          </div>
+            @error('first_name')
+              <span class="text-danger">{{ $message }}</span>
+            @enderror
+          </div><!-- /.form-group -->
           <div class="form-group">
             <label for="">Last name</label>
             <input type="text" class="form-control" name="last_name" value="{{ $user->last_name }}">
-          </div>
+            @error('last_name')
+              <span class="text-danger">{{ $message }}</span>
+            @enderror
+          </div><!-- /.form-group -->
           <div class="form-group">
             <label for="">Email</label>
             <input type="email" class="form-control" name="email" value="{{ $user->email }}">
-          </div>
+            @error('email')
+              <span class="text-danger">{{ $message }}</span>
+            @enderror
+          </div><!-- /.form-group -->
           <button type="submit" class="btn btn-success">Update</button>
           <a href="{{ route('users.index') }}" class="btn btn-secondary">Back</a>
-        </form>
-      </div>
-    </div>
-  </div>
+        </form><!-- /. -->
+      </div><!-- /.col-md-5 mx-auto -->
+    </div><!-- /.row -->
+  </div><!-- /.container -->
 @endsection

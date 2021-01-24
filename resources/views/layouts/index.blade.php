@@ -21,16 +21,13 @@
     </div><!-- /.col-md-12 mt-5 -->
   </div><!-- /.row -->
 </div><!--!-->
-{{--  <div class="row">--}}
 
-      @yield('content')
+@yield('content')
 
-{{--  </div><!-- /. row-->--}}
-{{--</div><!-- /.container -->--}}
+<script src="{{  asset('js/app.js') }}"></script>
+<script src="{{  asset('js/users.js') }}"></script>
 
-  <script src="{{  asset('js/app.js') }}"></script>
-  <script src="{{  asset('js/users.js') }}"></script>
+@yield('ajax')
 
-  @yield('ajax')
 </body>
 </html>
