@@ -30,7 +30,7 @@ class UsersController extends Controller {
 					$user = $user->orderBy('updated_at')->get();
 					break;
 				default:
-					$user = $user->orderBy('id')->get();
+					$user = $user->orderBydesc('id')->get();
 			}
 		}
 

@@ -20,12 +20,13 @@
       <hr/>
     </div><!-- /.col-md-12 mt-5 -->
   </div><!-- /.row -->
-  <div class="row">
+</div><!--!-->
+{{--  <div class="row">--}}
 
       @yield('content')
 
-  </div><!-- /. row-->
-</div><!-- /.container -->
+{{--  </div><!-- /. row-->--}}
+{{--</div><!-- /.container -->--}}
 
   <script src="{{  asset('js/app.js') }}"></script>
   <script src="{{  asset('js/users.js') }}"></script>
