@@ -1,174 +1,62 @@
-Добрый день.
-Тестовое задание выполнено на базе Linux + Laravel 8 + Docker.
-Задание состоит из:
-1) Создать базу данных с колонками:
-    -id,
-    -first_name,
-    -last_name,
-    -email,
-    -created_date,
-    -updated_date.
-2) Создать таблицу с информацией на главной странице (index),
-   где нужно реализовать фильтр и поиск по колонкам:
-    -ID,
-    -First Name,
-    -Last Name,
-    -Email,
-    -Create Date,
-    -Update Date.
-   Реализовать поле в таблице с названием "Edit" при нажатии на
-   которое на экране будет форма для редактирования.
-   Логику для добавления новой записи реализовать по кнопке "Add User".
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-Необходимые навыки для завершения задания:
-    - Использовать принцып ООП.
-    - Js / Jquery or Knockout
-    - Bootstrap 4
-Дополнительно:
-    - Создать таблицу используя php cli скрипт.
-    - Использовать Ajax - фильтр и сортировку,
-      должны работать без перезагрузки страницы.
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
+## About Laravel
 
-Я предпочитаю работать с docker, если нужно могу скинуть свою сборку,
-чтобы быстро поднять проект)).
-Далее расскажу как я подымаю проект.
-И так у нас есть работающий docker.
-Добавим в файл /etc/hosts следующую строку 127.0.0.1 crud-laravel-8.loc
-это url по которому будет откликаться наше приложение.
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-Заходим в docker/nginx/vhost.conf добавляем в него,
-server {
-    listen 80;
-    index index.php index.html;
-    root /var/www/crud-laravel-8/public; // crud-laravel-8/public название папки в которой лежит проект и указываем путь к index.php
-    client_max_body_size 32m;
-    server_name crud-laravel-8.loc;   // здесь указываем url который указали в /etc/hosts/
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-    set $cors_origin $http_origin;
-    set $cors_cred   true;
-    set $cors_header $http_access_control_request_headers;
-    set $cors_method $http_access_control_request_method;
-    set $cors_expose_header 'Authorization';
-    set $cors_request_header 'Authorization';
+## Learning Laravel
 
-    #add_header 'Access-Control-Allow-Origin' $cors_origin always;
-    #add_header 'Access-Control-Allow-Credentials' $cors_cred always;
-    #add_header 'Access-Control-Allow-Methods' $cors_method;
-    #add_header 'Access-Control-Allow-Headers' $cors_header always;
-    #add_header 'Access-Control-Expose-Headers' $cors_expose_header;
-    #add_header 'Access-Control-Request-Headers' $cors_request_header;
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-    location / {
-        add_header 'Access-Control-Allow-Origin' $cors_origin always;
-        add_header 'Access-Control-Allow-Credentials' $cors_cred always;
-        add_header 'Access-Control-Allow-Methods' $cors_method;
-        add_header 'Access-Control-Allow-Headers' $cors_header always;
-        add_header 'Access-Control-Expose-Headers' $cors_expose_header;
-        add_header 'Access-Control-Request-Headers' $cors_request_header;
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-        if ($request_method = 'OPTIONS') {
-            add_header 'Access-Control-Allow-Origin' $cors_origin always;
-            add_header 'Access-Control-Allow-Credentials' $cors_cred always;
-            add_header 'Access-Control-Allow-Methods' $cors_method;
-            add_header 'Access-Control-Allow-Headers' $cors_header always;
-            add_header 'Access-Control-Expose-Headers' $cors_expose_header;
-            add_header 'Access-Control-Request-Headers' $cors_request_header;
+## Laravel Sponsors
 
-            add_header 'Access-Control-Max-Age' 1728000;
-            add_header 'Content-Type' 'text/plain charset=UTF-8';
-            add_header 'Content-Length' 0;
-            return 204;
-        }
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-        try_files $uri /index.php?$args;
-    }
+### Premium Partners
 
-    location ~ \.php$ {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass app:9000;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $fastcgi_path_info;
-    }
-}
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/)**
+- **[OP.GG](https://op.gg)**
 
-Далее в терминале ззаходим в папку www/ в которой лежит наш докер.
-Сюда мы будем клонить проект с github.
-git@github.com:0oooopz/crud-laravel-8.git
+## Contributing
 
-Отлично проект лежит в директории www/ рядом с директорией docker
-Самое время поднять docker, заходим в терминал дектория docker, пишем команду
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-sudo docker-composse up -d --build   // соберет контейнеры и подымет docker с обновленными файлами
+## Code of Conduct
 
-Проверим что все контейнеры поднялись
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-sudo docker-compose ps   // в графе state напротив всех контейнеров up
+## Security Vulnerabilities
 
-Заходим в контейнер php нужно установить зависимости
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-sudo docker-compose exec app bash
+## License
 
-Далее переходим в директорию с нашим проектом crud-laravel-8 и устанавливоем зависимисти
-
-composer install
-
-После успешной становки у нас на локальной машине появится папка vendor
-
-Теперь сконфигурируем файл .env. Копируем файл .env.example в ту же директорию и открываем .env
-
-Назовем наш проект
-
-APP_NAME=Laravel  => меняем на APP_NAME=Crud-laravel-8
-
-Сгенерируем APP_KEY=
-
-Открываем терминал контейнера php с нашим проектом и пишем команду
-
-php artisan key:generate
-
-В поле APP_KEY= должен сгенерироваться уникальный ключ
-
-Переходим к настройке соединения с базой данных
-(Эти параметры могут отличаться в зависимости от настроек)
-
-DB_CONNECTION=mysql
-DB_HOST=db
-DB_PORT=3306
-DB_DATABASE=crud-laravel-8   // Так же нужно создать базу данных с таким именем
-DB_USERNAME=root     // Указываем логин и пароль для соединения
-DB_PASSWORD=123456
-
-Сохраняем, закрываем файл .env
-
-На следующем пункте я особо не заморачиваюсь, а рекурсивно устанавливаю права доступа в проекте
-Переходим в терминал, нам нужна наша локальная машина, находим наш проект
-И при помощи команды
-
-sudo chmod 777 -R crud-laravel-8
-
-Даем нужные права доступа нашемему проекту
-Проверяем url http://crud-laravel-8.loc/ если все сделано верно то видим <h1>Welcome<h1>
-
-Теперь нужно создать базу данных с именем которе мы указывали в DB_DATABASE=
-И создать миграции
-
-Создаем базу данных в моем случае crud-laravel-8
-И переходим в docker контейнер php в наш проект, пишет команду
-
-php artisan migrate
-
-Видим в терминале как создаются наши таблицы в базе данных и
-Migration table created successfully.
-
-Отлично, мы подняли проект.
-Теперь можете самостоятельно добавить пользователей либо воспользоватся командой
-
-php artisan db:seed      // все в том же docker контейнере php
-
-Заполнили базу данных рандомными пользователями.
-
-Благодарю за внимание, хорошего дня!
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
