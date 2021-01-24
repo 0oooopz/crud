@@ -25,28 +25,39 @@
   @else
     <div class="container">
       <div class="row d-flex align-items-center">
-        <a role="button" class="mx-3 btn btn-success" href="{{ route('users.create') }}">Add User</a>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        <div class="dropdown filters">
+
+          <button class="btn mx-3 btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
             Sort by
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#" data-order="id">Id</a>
-            <a class="dropdown-item" href="#" data-order="first-name">First name</a>
-            <a class="dropdown-item" href="#" data-order="last-name">Last name</a>
-            <a class="dropdown-item" href="#" data-order="email">Email</a>
-            <a class="dropdown-item" href="#" data-order="created-at">Created-at</a>
-            <a class="dropdown-item" href="#" data-order="updated-at">Updated-at</a>
+            <a class="dropdown-item" href="#" data-value="1" data-order="id">Id</a>
+            <a class="dropdown-item" href="#" data-value="0" data-order="first_name">First name</a>
+            <a class="dropdown-item" href="#" data-value="0" data-order="last_name">Last name</a>
+            <a class="dropdown-item" href="#" data-value="0" data-order="email">Email</a>
+            <a class="dropdown-item" href="#" data-value="0" data-order="created_at">Created-at</a>
+            <a class="dropdown-item" href="#" data-value="0" data-order="updated_at">Updated-at</a>
           </div>
         </div>
-        <nav class="navbar navbar-light bg-light float-right">
-          <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-{{--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>--}}
-          </form>
-        </nav>
+        <div class="d-flex mt-3 align-items-center">
+          <nav class="navbar navbar-light bg-light float-right">
+            <a class="form-group filters">
+              <input type="text" class="form-control" name="search" placeholder="Search" id="search">
+            </a>
+          </nav>
+        </div>
+        <div class="d-flex align-items-center">
+          <div class="row d-flex align-items-center">
+            <a role="button" class="mx-3 btn btn-primary" id="customSearch">Search</a>
+          </div>
+        </div>
 
+
+        <div class="d-flex align-items-right offset-md-6">
+          <a role="button" class="ml-4 btn btn-success" href="{{ route('users.create') }}">Add User</a>
+        </div>
       </div>
     </div>
     <div class="container">
@@ -95,13 +106,38 @@
     </div>
 @endsection
 @section('ajax')
-
   <script>
       $(document).ready(function () {
           $('.dropdown-item').click(function () {
+              $('*[data-value]').attr("data-value",0);
+              $(this).attr("data-value", 1);
+          })
+          $('#customSearch').click(function () {
+              let orderBy = $('*[data-value=1]').data('order')
+              let search = $('#search').val()
+              $.ajax({
+                  url: "{{route('users.index')}}",
+                  type: "GET",
+                  data: {
+                      orderBy: orderBy,
+                      search: search,
+                  },
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  success: function (data) {
+                      let positionParameters = location.pathname.indexOf('?');
+                      let url = location.pathname.substring(positionParameters, location.pathname.length);
+                      let newURL = url + '?';
+                      newURL += 'orderBy=' + orderBy;
+                      history.pushState({}, '', newURL);
+
+                      $('.ajax-sort').html(data)
+                  }
+              });
+          })
+          $('.dropdown-item').click(function () {
               let orderBy = $(this).data('order')
-
-
               $.ajax({
                   url: "{{route('users.index')}}",
                   type: "GET",
@@ -117,10 +153,8 @@
                       let newURL = url + '?';
                       newURL += 'orderBy=' + orderBy;
                       history.pushState({}, '', newURL);
-
                       $('.ajax-sort').html(data)
                   }
-
               });
           })
       })

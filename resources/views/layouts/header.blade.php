@@ -12,9 +12,6 @@
         <li class="nav-item active">
           <a class="nav-link" href="{{ route('users.index') }}">Show all users</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('users.create') }}">Add user</a>
-        </li>
       </ul>
     </div>
 

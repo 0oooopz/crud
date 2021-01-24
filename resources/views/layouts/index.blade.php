@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="UTF-8">
